@@ -1,0 +1,81 @@
+1. 用户注册
+url: /user
+method: POST
+request:
+	{
+		"username": string,
+		"userpwd": string,
+		"emailno": string,
+		"phoneno": string
+	}
+response:
+	{
+		"useruuid": string,
+		"error": int,
+		"errorstring": string
+	}
+
+2. 用户注销
+url: /user
+method: DELETE
+request:
+	{
+		"cookieid": string,
+		"useruuid": string
+	}
+response:
+	{
+		"error": int,
+		"errorstring": string
+	}
+
+3. 用户登录
+url: /login
+method: POST
+request:
+	{
+		"userno": string,
+		"userpwd": string,
+		"cookieid": string
+	}
+response:
+	{
+		"sessionid": string,
+		"useruuid": string,
+		"error": int,
+		"errorstring": string
+	}
+
+4. 用户登出
+url: /login
+method: DELETE
+request:
+	{
+		"cookieid": string
+	}
+response:
+	{
+		"error": int,
+		"errorstring": string
+	}
+
+5. 添加商品
+url: /commodity
+method: POST
+header:
+	"Content-Type": "form-data"
+request:
+	commodityPictureFormname: "commoditypicurl"
+	commodityDescPictureFormname: "commoditydespiccurl"
+	"commodityInfo": CCommodityInfo
+reponse:
+	{
+		"commodityUuid": string,
+		"error": int,
+		"errorstring": string
+	}
+json:
+	json CCommodityInfo
+	{
+		"commodityClassifyUuid": string
+	}
