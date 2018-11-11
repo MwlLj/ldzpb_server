@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"github.com/MwlLj/mqtt_comm"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/satori/go.uuid"
 )
 
 type CPostCommodityClassifitionHandle struct {
@@ -20,7 +21,7 @@ func (this *CPostCommodityClassifitionHandle) Handle(topic string, request strin
 	var err error = nil
 	for {
 		// get request json
-		postCommodityClassifitionJson := crs.CPostCommodityClassifitionRequest{}
+		postCommodityClassifitionJson := []crs.CPostCommodityClassifitionRequest{}
 		err = json.Unmarshal([]byte(request), &postCommodityClassifitionJson)
 		if err != nil {
 			errorCode = comm_err.JsonParseErrorCode
@@ -28,9 +29,18 @@ func (this *CPostCommodityClassifitionHandle) Handle(topic string, request strin
 			break
 		}
 		// add server to db
-		input := commoditydb.CProAddCommodityClassifitionInput{}
-		output := commoditydb.CProAddCommodityClassifitionOutput{}
-		server.m_commodityDbHandler.ProAddCommodityClassifition(&input, &output)
+		input := []commoditydb.CAddCommodityClassifitionInput{}
+		for _, req := range postCommodityClassifitionJson {
+			in := commoditydb.CAddCommodityClassifitionInput{}
+			in.Uuid, err = uuid.NewV4()
+			if err != nil {
+				errorCode = comm_err.UuidGeneralErrorCode
+				errorString = comm_err.UuidGeneralErrorString + "crs add commodityclassify"
+				break
+			}
+			input = append(input, in)
+		}
+		server.m_commodityDbHandler.AddCommodityClassifition(&input)
 		break
 	}
 	reply := crs.CPostCommodityClassifitionReply{Error: errorCode, ErrorString: errorString}

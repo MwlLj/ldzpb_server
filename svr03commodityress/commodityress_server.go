@@ -22,11 +22,12 @@ func (this *CCommodityresServer) Start() {
 	}
 	dbData := dbcfg.GetMysqlDbData()
 	// usermgr db conncet
-	err = this.m_commodityDbHandler.Connect(dbData.Host, dbData.Port, dbData.Username, dbData.Userpwd, dbData.Dbname)
+	err = this.m_commodityDbHandler.Connect(dbData.Host, dbData.Port, dbData.Username, dbData.Userpwd, dbData.Dbname, "mysql")
 	if err != nil {
 		panic("[Error] commodity connect db error")
 	}
 	defer this.m_commodityDbHandler.Disconnect()
+	this.m_commodityDbHandler.Create()
 	// serverconfig db connect
 	// start mqtt server
 	this.m_mqttComm = mqtt_comm.NewMqttComm("commodityress", "1.0", 0)
