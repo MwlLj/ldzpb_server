@@ -31,11 +31,22 @@ type CDeleteCommodityClassifitionReply struct {
 	ErrorString string `json:"errorstring"`
 }
 
+type CGetCommodityClassifitionRequest struct {
+	Uuid string `json:"uuid"`
+}
+
+type CGetCommodityClassifitionReply struct {
+	Name        string `json:"name"`
+	ParentUuid  string `json:"parentuuid"`
+	Error       int    `json:"errorcode"`
+	ErrorString string `json:"errorstring"`
+}
+
 type CPostCommodityClassifitionDetailRequest struct {
 	ClassifyUuid string `json:"classifyuuid"`
 	DetailType   string `json:"detailtype"`
 	DetailValue  string `json:"detailvalue"`
-	DetailNo     string `json:"detailno"`
+	DetailNo     int    `json:"detailno"`
 }
 
 type CPostCommodityClassifitionDetailReply struct {
@@ -48,7 +59,7 @@ type CPutCommodityClassifitionDetailRequest struct {
 	DetialUuid  string  `json:"detailuuid"`
 	DetailType  *string `json:"detailtype"`
 	DetailValue *string `json:"detailvalue"`
-	DetailNo    *string `json:"detailno"`
+	DetailNo    *int    `json:"detailno"`
 }
 
 type CPutCommodityClassifitionDetailReply struct {
@@ -63,4 +74,17 @@ type CDeleteCommodityClassifitionDetailRequest struct {
 type CDeleteCommodityClassifitionDetailReply struct {
 	Error       int    `json:"errorcode"`
 	ErrorString string `json:"errorstring"`
+}
+
+type CGetCommodityClassifitionDetailRequest struct {
+	DetailUuid string `json:"detailuuid"`
+}
+
+type CGetCommodityClassifitionDetailReply struct {
+	ClassifyUuid string `json:"classifyuuid"`
+	DetailType   string `json:"detailtype"`
+	DetailValue  string `json:"detailvalue"`
+	DetailNo     int    `json:"detailno"`
+	Error        int    `json:"errorcode"`
+	ErrorString  string `json:"errorstring"`
 }

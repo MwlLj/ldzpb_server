@@ -18,6 +18,9 @@ var DeleteFileErrorString string = "deleteFileError: "
 var ParamErrorCode int = 50
 var ParamErrorString string = "paramError: "
 
+var UuidGeneralErrorCode int = 60
+var UuidGeneralErrorString string = "uuidGenError: "
+
 var UserAlreadyExistErrorCode int = 100
 var UserAlreadyExistErrorString string = "userAlreadyExistError: "
 

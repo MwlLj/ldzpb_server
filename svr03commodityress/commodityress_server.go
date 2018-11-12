@@ -11,7 +11,7 @@ import (
 
 type CCommodityresServer struct {
 	m_mqttComm           mqtt_comm.CMqttComm
-	m_commodityDbHandler commoditydb.CMysqlHandler
+	m_commodityDbHandler commoditydb.CDbHandler
 }
 
 func (this *CCommodityresServer) Start() {
@@ -45,6 +45,13 @@ func (this *CCommodityresServer) Start() {
 
 func (this *CCommodityresServer) registerRouter() {
 	this.m_mqttComm.Subscribe(mqtt_comm.POST, crs.Commodity_classifition, 0, &CPostCommodityClassifitionHandle{}, this)
+	this.m_mqttComm.Subscribe(mqtt_comm.PUT, crs.Commodity_classifition, 0, &CPutCommodityClassifitionHandle{}, this)
+	this.m_mqttComm.Subscribe(mqtt_comm.DELETE, crs.Commodity_classifition, 0, &CDeleteCommodityClassifitionHandle{}, this)
+	this.m_mqttComm.Subscribe(mqtt_comm.GET, crs.Commodity_classifition, 0, &CGetCommodityClassifitionHandle{}, this)
+	this.m_mqttComm.Subscribe(mqtt_comm.POST, crs.Commodity_classifition_detail, 0, &CPostCommodityClassifitionDetailHandle{}, this)
+	this.m_mqttComm.Subscribe(mqtt_comm.PUT, crs.Commodity_classifition_detail, 0, &CPutCommodityClassifitionDetailHandle{}, this)
+	this.m_mqttComm.Subscribe(mqtt_comm.DELETE, crs.Commodity_classifition_detail, 0, &CDeleteCommodityClassifitionDetailHandle{}, this)
+	this.m_mqttComm.Subscribe(mqtt_comm.GET, crs.Commodity_classifition_detail, 0, &CGetCommodityClassifitionDetailHandle{}, this)
 }
 
 func main() {

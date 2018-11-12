@@ -4,15 +4,15 @@ import (
 	"bufio"
 	"bytes"
 	"database/sql"
+	"errors"
+	"fmt"
 	"io"
 	"os"
 	"regexp"
 	"strconv"
-	"fmt"
-	"errors"
 )
 
-type CDbHandler struct  {
+type CDbHandler struct {
 	m_db *sql.DB
 }
 
@@ -28,9 +28,9 @@ func (this *CDbHandler) Connect(host string, port uint, username string, userpwd
 	b.WriteString(")/")
 	b.WriteString(dbname)
 	var name string
-	if (dbtype == "mysql") {
+	if dbtype == "mysql" {
 		name = b.String()
-	} else if (dbtype == "sqlite") {
+	} else if dbtype == "sqlite" {
 		name = dbname
 	} else {
 		return errors.New("dbtype not support")
@@ -94,7 +94,7 @@ func (this *CDbHandler) Disconnect() {
 	this.m_db.Close()
 }
 
-func (this *CDbHandler) Create() (error) {
+func (this *CDbHandler) Create() error {
 	var err error = nil
 	_, err = this.m_db.Exec(`create table if not exists t_object_detail(
 uuid varchar(64),
@@ -145,7 +145,7 @@ create index UK_commodityinfo_uuid on t_commodity_info (uuid);`)
 	return nil
 }
 
-func (this *CDbHandler) AddCommodityClassifition(input *[]CAddCommodityClassifitionInput) (error) {
+func (this *CDbHandler) AddCommodityClassifition(input *[]CAddCommodityClassifitionInput) error {
 	stmt, err := this.m_db.Prepare(fmt.Sprintf(`insert into t_commodity_classifition values(?, ?, ?);`))
 	if err != nil {
 		return err
@@ -165,7 +165,7 @@ func (this *CDbHandler) AddCommodityClassifition(input *[]CAddCommodityClassifit
 	return nil
 }
 
-func (this *CDbHandler) AddCommodityClassifitionDetailInfo(input *[]CAddCommodityClassifitionDetailInfoInput) (error) {
+func (this *CDbHandler) AddCommodityClassifitionDetailInfo(input *[]CAddCommodityClassifitionDetailInfoInput) error {
 	stmt, err := this.m_db.Prepare(fmt.Sprintf(`insert into t_object_detail values(?, ?, ?, ?, ?);`))
 	if err != nil {
 		return err
@@ -185,7 +185,7 @@ func (this *CDbHandler) AddCommodityClassifitionDetailInfo(input *[]CAddCommodit
 	return nil
 }
 
-func (this *CDbHandler) AddCommodityInfo(input *[]CAddCommodityInfoInput) (error) {
+func (this *CDbHandler) AddCommodityInfo(input *[]CAddCommodityInfoInput) error {
 	stmt, err := this.m_db.Prepare(fmt.Sprintf(`insert into t_commodity_info values(?, ?, ?, ?);`))
 	if err != nil {
 		return err
@@ -205,7 +205,7 @@ func (this *CDbHandler) AddCommodityInfo(input *[]CAddCommodityInfoInput) (error
 	return nil
 }
 
-func (this *CDbHandler) AddCommodityDetailInfo(input *[]CAddCommodityDetailInfoInput) (error) {
+func (this *CDbHandler) AddCommodityDetailInfo(input *[]CAddCommodityDetailInfoInput) error {
 	stmt, err := this.m_db.Prepare(fmt.Sprintf(`insert into t_object_detail values(?, ?, ?, ?, ?);`))
 	if err != nil {
 		return err
@@ -224,4 +224,3 @@ func (this *CDbHandler) AddCommodityDetailInfo(input *[]CAddCommodityDetailInfoI
 	tx.Commit()
 	return nil
 }
-
