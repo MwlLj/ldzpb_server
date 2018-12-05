@@ -24,7 +24,7 @@ func ComplicatedPwdCheck(pwd []rune, min int, max int) bool {
 		}
 	}
 	length := len(pwd)
-	if (result == 7 || result == 11 || result == 13 || result == 14 || result == 15) && (length >= 8 && length <= 30) {
+	if (result == 7 || result == 11 || result == 13 || result == 14 || result == 15) && (length >= min && length <= max) {
 		return true
 	} else {
 		return false
